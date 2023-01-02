@@ -1,0 +1,12 @@
+{
+  "name": "line-meessaging-chat-gpt",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/boat1994/line-meessaging-chat-gpt.git",
+  "license": "MIT",
+  "dependencies": {
+    "@line/bot-sdk": "^7.5.2",
+    "express": "^4.18.2",
+    "openai": "^3.1.0"
+  }
+}
