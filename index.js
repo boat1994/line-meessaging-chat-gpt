@@ -1,28 +1,33 @@
-import * as express from 'express';
-import * as line from '@line/bot-sdk';
-import * as openai from 'openai';
+import express from 'express';
+import line from '@line/bot-sdk';
+import { Configuration, OpenAIApi } from "openai";
+
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app = express();
 
-// Replace these values with your own LINE Channel ID and Secret Key
+// Load the secrets from the .env file
 const lineConfig = {
-    channelId: 'YOUR_LINE_CHANNEL_ID',
-    channelSecret: 'YOUR_LINE_CHANNEL_SECRET',
-    channelAccessToken: 'YOUR_LINE_CHANNEL_ACCESS_TOKEN'
+    channelId: process.env.LINE_CHANNEL_ID,
+    channelSecret: process.env.LINE_CHANNEL_SECRET,
+    channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN
 };
 
-// Replace these values with your own OpenAI API Key and Model ID
 const openaiConfig = {
-    apiKey: 'YOUR_OPENAI_API_KEY',
-    modelId: 'YOUR_GPT3_MODEL_ID'
+    apiKey: process.env.OPENAI_API_KEY,
+    modelId: process.env.GPT3_MODEL_ID
 };
+
 
 // Initialize the LINE SDK
 const lineClient = new line.Client(lineConfig);
 
 // Initialize the OpenAI client
-const openaiClient = new openai.Client(openaiConfig);
-
+const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+const openaiClient = new OpenAIApi(configuration);
 // Set up the webhook
 app.post('/webhook', line.middleware(lineConfig), (req, res) => {
     // Parse the incoming message
@@ -63,5 +68,6 @@ app.post('/webhook', line.middleware(lineConfig), (req, res) => {
 app.listen(3000, () => {
     console.log('Server listening on port 3000');
 });
+
 
 
